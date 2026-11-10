@@ -1,3 +1,6 @@
 *.DLL
 *.dll
 *.xpd
+
+# Local Copilot session backups
+backups/
