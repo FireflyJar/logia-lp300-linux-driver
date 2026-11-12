@@ -1,0 +1,47 @@
+#!/usr/bin/env python3
+import os
+import sys
+import subprocess
+
+USB_URI = "usb:///Logia%20Printer?serial=B2521301MX00640"
+USB_BACKEND = "/usr/lib/cups/backend/usb"
+CONVERTER = "/usr/local/libexec/logia-zpl-convert.py"
+
+def main():
+    if len(sys.argv) == 1:
+        print('direct logiausb:/ "Logia LOGLP300" "Logia ZPL Inline Graphics"')
+        return 0
+
+    if len(sys.argv) not in (6, 7):
+        print("ERROR: Invalid CUPS backend arguments", file=sys.stderr)
+        return 1
+
+    if len(sys.argv) == 7:
+        with open(sys.argv[6], "rb") as f:
+            data = f.read()
+    else:
+        data = sys.stdin.buffer.read()
+
+    converted = subprocess.run(
+        [sys.executable, CONVERTER],
+        input=data,
+        capture_output=True,
+    )
+
+    if converted.returncode:
+        sys.stderr.buffer.write(converted.stderr)
+        return 1
+
+    env = os.environ.copy()
+    env["DEVICE_URI"] = USB_URI
+
+    result = subprocess.run(
+        [USB_BACKEND, *sys.argv[1:6]],
+        input=converted.stdout,
+        env=env,
+    )
+
+    return result.returncode
+
+if __name__ == "__main__":
+    sys.exit(main())
