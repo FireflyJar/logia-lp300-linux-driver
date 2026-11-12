@@ -3,9 +3,23 @@ import os
 import sys
 import subprocess
 
-USB_URI = "usb:///Logia%20Printer?serial=B2521301MX00640"
 USB_BACKEND = "/usr/lib/cups/backend/usb"
 CONVERTER = "/usr/local/libexec/logia-zpl-convert.py"
+
+def find_logia_usb():
+    result = subprocess.run(
+        [USB_BACKEND],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+
+    for line in result.stdout.splitlines():
+        if line.startswith("direct usb:///Logia%20Printer"):
+            return line.split('"')[0].split()[1]
+
+    raise RuntimeError("Logia USB printer not found")
+
 
 def main():
     if len(sys.argv) == 1:
@@ -33,7 +47,7 @@ def main():
         return 1
 
     env = os.environ.copy()
-    env["DEVICE_URI"] = USB_URI
+    env["DEVICE_URI"] = find_logia_usb()
 
     result = subprocess.run(
         [USB_BACKEND, *sys.argv[1:6]],

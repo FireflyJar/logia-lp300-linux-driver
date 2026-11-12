@@ -1,6 +1,28 @@
-*.DLL
-*.dll
-*.xpd
+# Python cache
+__pycache__/
+*.pyc
 
-# Local Copilot session backups
+# Printer test output
+*.prn
+*.zpl
+*.bin
+*.log
+
+# Generated previews
+logia-decoded-preview.png
+
+# Local backups
+*.bak
+*.backup
+
+# Local test documents
+test-label.pdf
+test-label.ps
+
+# Original Windows printer driver files
+LogiaRender.DLL
+LogiaUI.DLL
+Logiadpi.xpd
+
+# Local backup directory
 backups/
