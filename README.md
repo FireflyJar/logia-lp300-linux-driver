@@ -42,8 +42,8 @@ cups package.
 
 Clone the repository:
 
-    git clone https://github.com/FireflyJar/printer-driver-analysis.git
-    cd printer-driver-analysis
+    git clone https://github.com/FireflyJar/logia-lp300-linux-driver.git
+    cd logia-lp300-linux-driver
 
 Install the printer:
 
