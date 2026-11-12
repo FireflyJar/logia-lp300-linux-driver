@@ -19,11 +19,24 @@ The printer may identify itself as ESC/POS despite accepting Z64-compressed ZPL.
 
 ## Requirements
 
-- Linux with CUPS
-- CUPS Zebra ZPL printer driver
-- Python 3
+Tested on Fedora 44 with:
+
+- cups
+- cups-filters
+- python3
 - USB-connected Logia LOGLP300 printer
 - Root privileges for installation
+
+Install the required Fedora packages:
+
+    sudo dnf install cups cups-filters python3
+
+Enable the CUPS service:
+
+    sudo systemctl enable --now cups
+
+The Zebra ZPL printer driver is included in Fedora's
+cups package.
 
 ## Installation
 
